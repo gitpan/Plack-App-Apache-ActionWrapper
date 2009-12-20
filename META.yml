@@ -10,9 +10,9 @@ meta-spec:
 name: Plack-App-Apache-ActionWrapper
 requires:
   ExtUtils::MakeMaker: 0
-  Plack::Middleware: 0
+  Plack: 0.9021
   Test::More: 0
   base: 0
 resources:
   repository: http://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper
-version: 0.01
+version: 0.02

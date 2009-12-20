@@ -7,17 +7,17 @@
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
    },
    "generated_by" : "Dist::Zilla version 1.093400",
-   "version" : "0.01",
+   "version" : "0.02",
    "name" : "Plack-App-Apache-ActionWrapper",
    "author" : [
       "Robin Smidsr\u00c3\u00b8d <robin@smidsrod.no>"
    ],
    "license" : "perl",
    "requires" : {
-      "Plack::Middleware" : "0",
-      "base" : "0",
       "Test::More" : "0",
-      "ExtUtils::MakeMaker" : 0
+      "base" : "0",
+      "Plack" : "0.9021",
+      "ExtUtils::MakeMaker" : "0"
    },
    "abstract" : "Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI"
 }

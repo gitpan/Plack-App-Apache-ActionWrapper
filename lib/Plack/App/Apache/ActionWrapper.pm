@@ -3,10 +3,10 @@
 # ABSTRACT: Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI
 
 package Plack::App::Apache::ActionWrapper;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 use strict;
 use warnings;
-use base 'Plack::Middleware';
+use base 'Plack::Component';
 
 
 
@@ -134,7 +134,7 @@ Plack::App::Apache::ActionWrapper - Wrapper for Apache2 Action directive for run
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
@@ -213,7 +213,7 @@ systems that provide it to diminish the memory usage.
 
 =head2 call
 
-The main handler that will be returned by the C<to_app> method inherited from L<Plack::Middleware>.
+The main handler that will be returned by the C<to_app> method inherited from L<Plack::Component>.
 
 =head2 enable_debug
 

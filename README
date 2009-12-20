@@ -1,7 +1,7 @@
 
 
 This archive contains the distribution Plack-App-Apache-ActionWrapper, version
-0.01:
+0.02:
 
   Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI
 
