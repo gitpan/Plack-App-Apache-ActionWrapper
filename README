@@ -1,0 +1,12 @@
+
+
+This archive contains the distribution Plack-App-Apache-ActionWrapper, version
+0.01:
+
+  Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI
+
+This software is copyright (c) 2009 by Robin Smidsrød.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
