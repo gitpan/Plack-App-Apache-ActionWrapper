@@ -2,17 +2,22 @@
 abstract: 'Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI'
 author:
   - 'Robin Smidsrød <robin@smidsrod.no>'
-generated_by: 'Dist::Zilla version 1.093400'
+build_requires:
+  English: 0
+  Test::More: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.31
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.200000, CPAN::Meta::Converter version 2.102400'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Plack-App-Apache-ActionWrapper
 requires:
-  ExtUtils::MakeMaker: 0
+  File::Spec: 0
   Plack: 0.9021
-  Test::More: 0
-  base: 0
+  Plack::Component: 0
 resources:
-  repository: http://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper
-version: 0.02
+  repository: git://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper.git
+version: 0.30.0

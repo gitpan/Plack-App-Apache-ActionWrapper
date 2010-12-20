@@ -1,14 +1,16 @@
 #!/usr/bin/perl
 
-# ABSTRACT: Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI
-
-package Plack::App::Apache::ActionWrapper;
-our $VERSION = '0.02';
 use strict;
 use warnings;
+
+package Plack::App::Apache::ActionWrapper;
+BEGIN {
+  $Plack::App::Apache::ActionWrapper::VERSION = '0.30.0';
+}
 use base 'Plack::Component';
+use File::Spec;
 
-
+# ABSTRACT: Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI
 
 
 sub call {
@@ -57,21 +59,18 @@ sub _resolve_app_filename {
 
     my $path_translated = $env->{'PATH_TRANSLATED'} || "";
 
+    # Split path into filesystem parts according to OS specific separator
+    my ($vol, $pt_dir) = File::Spec->splitpath($path_translated);
+    my @path_parts = File::Spec->splitdir($pt_dir);
+
     # Figure out which part of the path is actually the psgi file
-    my @path_parts = split(m{/}, $path_translated);
-    while ( ! -r join("/", @path_parts) ) {
-        last if @path_parts == 0; # Break out if we're at the end
-        pop @path_parts;
+    while ( not -r $path_translated and @path_parts ) {
+        my $f = pop @path_parts;
+        $path_translated = File::Spec->catpath(
+            $vol, File::Spec->catdir(@path_parts), $f
+        );
     }
-
-    # Return undef (that is, no app) if no path part was a readable file
-    return if @path_parts == 0;
-
-    # Execute the contents of the file and return last variable defined in it
-    my $psgi_file = join("/", @path_parts );
-
-    # Cache the app to allow persistent running
-    return $psgi_file;
+    return -r $path_translated && $path_translated;
 }
 
 sub _get_app {
@@ -99,7 +98,7 @@ sub _get_app {
     }
 
     # Return cached app
-    return $self->{'code_cache'}->{$app_filename};        
+    return $self->{'code_cache'}->{$app_filename};
 }
 
 sub _get_debug_info {
@@ -125,8 +124,11 @@ sub _get_debug_info {
 
 1;
 
-__END__
+
+
 =pod
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -134,7 +136,7 @@ Plack::App::Apache::ActionWrapper - Wrapper for Apache2 Action directive for run
 
 =head1 VERSION
 
-version 0.02
+version 0.30.0
 
 =head1 SYNOPSIS
 
@@ -163,8 +165,8 @@ version 0.02
     my $app = Plack::App::Apache::ActionWrapper->new->enable_debug->to_app;
 
     # Run the actual app
-    use Plack::Server::FCGI;
-    Plack::Server::FCGI->new->run($app);
+    use Plack::Handler::FCGI;
+    Plack::Handler::FCGI->new->run($app);
 
     1;
 
@@ -189,7 +191,7 @@ version 0.02
 
 =head1 DESCRIPTION
 
-The PSGI web application specification is awesome. Plack is awesome aswell.
+The PSGI web application specification is awesome. Plack is awesome as well.
 Running PSGI apps using plackup in development is super easy.
 
 But what do you do when you want to deploy your PSGI app on shared hosting?
@@ -227,18 +229,97 @@ Mutator to disable debug output if no path was found in PATH_TRANSLATED. Allows 
 
 Accessor to determine if debug is enabled or not. Debug is disabled by default.
 
-=encoding utf8
+=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+  perldoc Plack::App::Apache::ActionWrapper
+
+=head2 Websites
+
+=over 4
+
+=item *
+
+Search CPAN
+
+L<http://search.cpan.org/dist/Plack-App-Apache-ActionWrapper>
+
+=item *
+
+AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Plack-App-Apache-ActionWrapper>
+
+=item *
+
+CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Plack-App-Apache-ActionWrapper>
+
+=item *
+
+CPAN Forum
+
+L<http://cpanforum.com/dist/Plack-App-Apache-ActionWrapper>
+
+=item *
+
+RT: CPAN's Bug Tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Plack-App-Apache-ActionWrapper>
+
+=item *
+
+CPANTS Kwalitee
+
+L<http://cpants.perl.org/dist/overview/Plack-App-Apache-ActionWrapper>
+
+=item *
+
+CPAN Testers Results
+
+L<http://cpantesters.org/distro/P/Plack-App-Apache-ActionWrapper.html>
+
+=item *
+
+CPAN Testers Matrix
+
+L<http://matrix.cpantesters.org/?dist=Plack-App-Apache-ActionWrapper>
+
+=item *
+
+Source Code Repository
+
+The code is open to the world, and available for you to hack on. Please feel free to browse it and play
+with it, or whatever. If you want to contribute patches, please send me a diff or prod me to pull
+from your repository :)
+
+L<git://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper.git>
+
+=back
+
+=head2 Bugs
+
+Please report any bugs or feature requests to C<bug-plack-app-apache-actionwrapper at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Plack-App-Apache-ActionWrapper>.  I will be
+notified, and then you'll automatically be notified of progress on your bug as I make changes.
 
 =head1 AUTHOR
 
-  Robin Smidsrød <robin@smidsrod.no>
+Robin Smidsrød <robin@smidsrod.no>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2009 by Robin Smidsrød.
+This software is copyright (c) 2010 by Robin Smidsrød.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+
+
+__END__
 
