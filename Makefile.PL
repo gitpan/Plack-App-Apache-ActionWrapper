@@ -4,32 +4,35 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI',
-  'AUTHOR' => 'Robin Smidsrød <robin@smidsrod.no>',
-  'BUILD_REQUIRES' => {
-    'English' => '0',
-    'Test::More' => '0'
+  "ABSTRACT" => "Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI",
+  "AUTHOR" => "Robin Smidsr\303\270d <robin\@smidsrod.no>",
+  "BUILD_REQUIRES" => {
+    "English" => 0,
+    "Test::More" => 0
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'Plack-App-Apache-ActionWrapper',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Plack::App::Apache::ActionWrapper',
-  'PREREQ_PM' => {
-    'File::Spec' => '0',
-    'Plack' => '0.9021',
-    'Plack::Component' => '0'
+  "DISTNAME" => "Plack-App-Apache-ActionWrapper",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Plack::App::Apache::ActionWrapper",
+  "PREREQ_PM" => {
+    "File::Spec" => 0,
+    "Plack" => "0.9021",
+    "Plack::Component" => 0,
+    "base" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'VERSION' => '0.30.0',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.30.1",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

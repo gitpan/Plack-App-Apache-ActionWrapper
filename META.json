@@ -4,7 +4,7 @@
       "Robin Smidsr\u00c3\u00b8d <robin@smidsrod.no>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.200000, CPAN::Meta::Converter version 2.102400",
+   "generated_by" : "Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.112150",
    "license" : [
       "perl_5"
    ],
@@ -16,14 +16,17 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.31"
+            "ExtUtils::MakeMaker" : "6.30"
          }
       },
       "runtime" : {
          "requires" : {
             "File::Spec" : 0,
             "Plack" : "0.9021",
-            "Plack::Component" : 0
+            "Plack::Component" : 0,
+            "base" : 0,
+            "strict" : 0,
+            "warnings" : 0
          }
       },
       "test" : {
@@ -41,6 +44,6 @@
          "web" : "http://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper"
       }
    },
-   "version" : "0.30.0"
+   "version" : "0.30.1"
 }
 

@@ -6,9 +6,9 @@ build_requires:
   English: 0
   Test::More: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.31
+  ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.200000, CPAN::Meta::Converter version 2.102400'
+generated_by: 'Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.112150'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -18,6 +18,9 @@ requires:
   File::Spec: 0
   Plack: 0.9021
   Plack::Component: 0
+  base: 0
+  strict: 0
+  warnings: 0
 resources:
   repository: git://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper.git
-version: 0.30.0
+version: 0.30.1

@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 package Plack::App::Apache::ActionWrapper;
-BEGIN {
-  $Plack::App::Apache::ActionWrapper::VERSION = '0.30.0';
+{
+  $Plack::App::Apache::ActionWrapper::VERSION = '0.30.1';
 }
 use base 'Plack::Component';
 use File::Spec;
@@ -136,12 +136,14 @@ Plack::App::Apache::ActionWrapper - Wrapper for Apache2 Action directive for run
 
 =head1 VERSION
 
-version 0.30.0
+version 0.30.1
 
 =head1 SYNOPSIS
 
     ------------- .htaccess -----------------
-    AddHandler fcgi-script .fcgi
+    AddHandler fcgid-script .fcgi
+    # Enable this instead if server is using mod_fastcgi instead of mod_fcgid
+    #AddHandler fastcgi-script .fcgi
     Action psgi-script /cgi-bin/psgi.fcgi
     AddHandler psgi-script .psgi
 
@@ -202,7 +204,7 @@ So your shared hosting provider has provided you with FastCGI support to
 mitigate that problem. But because FastCGIExternalServer cannot be defined
 in .htaccess you can only run dynamic FastCGI applications.
 
-Your immediate reaction is to define C<AddHandler fcgi-script .psgi> in your
+Your immediate reaction is to define C<AddHandler fcgid-script .psgi> in your
 .htaccess and use plackup on the shebang line to run your PSGI app. But that
 doesn't work if you use local::lib, because @INC is not setup properly.
 
@@ -229,9 +231,11 @@ Mutator to disable debug output if no path was found in PATH_TRANSLATED. Allows 
 
 Accessor to determine if debug is enabled or not. Debug is disabled by default.
 
-=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
 
 =head1 SUPPORT
+
+=head2 Perldoc
 
 You can find documentation for this module with the perldoc command.
 
@@ -239,17 +243,32 @@ You can find documentation for this module with the perldoc command.
 
 =head2 Websites
 
+The following websites have more information about this module, and may be of help to you. As always,
+in addition to those websites please use your favorite search engine to discover more resources.
+
 =over 4
 
 =item *
 
 Search CPAN
 
+The default CPAN search engine, useful to view POD in HTML format.
+
 L<http://search.cpan.org/dist/Plack-App-Apache-ActionWrapper>
 
 =item *
 
-AnnoCPAN: Annotated CPAN documentation
+RT: CPAN's Bug Tracker
+
+The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Plack-App-Apache-ActionWrapper>
+
+=item *
+
+AnnoCPAN
+
+The AnnoCPAN is a website that allows community annonations of Perl module documentation.
 
 L<http://annocpan.org/dist/Plack-App-Apache-ActionWrapper>
 
@@ -257,55 +276,67 @@ L<http://annocpan.org/dist/Plack-App-Apache-ActionWrapper>
 
 CPAN Ratings
 
+The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
+
 L<http://cpanratings.perl.org/d/Plack-App-Apache-ActionWrapper>
 
 =item *
 
 CPAN Forum
 
+The CPAN Forum is a web forum for discussing Perl modules.
+
 L<http://cpanforum.com/dist/Plack-App-Apache-ActionWrapper>
 
 =item *
 
-RT: CPAN's Bug Tracker
+CPANTS
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Plack-App-Apache-ActionWrapper>
-
-=item *
-
-CPANTS Kwalitee
+The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
 
 L<http://cpants.perl.org/dist/overview/Plack-App-Apache-ActionWrapper>
 
 =item *
 
-CPAN Testers Results
+CPAN Testers
 
-L<http://cpantesters.org/distro/P/Plack-App-Apache-ActionWrapper.html>
+The CPAN Testers is a network of smokers who run automated tests on uploaded CPAN distributions.
+
+L<http://www.cpantesters.org/distro/P/Plack-App-Apache-ActionWrapper>
 
 =item *
 
 CPAN Testers Matrix
 
+The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+
 L<http://matrix.cpantesters.org/?dist=Plack-App-Apache-ActionWrapper>
 
 =item *
 
-Source Code Repository
+CPAN Testers Dependencies
+
+The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
+
+L<http://deps.cpantesters.org/?module=Plack::App::Apache::ActionWrapper>
+
+=back
+
+=head2 Bugs / Feature Requests
+
+Please report any bugs or feature requests by email to C<bug-plack-app-apache-actionwrapper at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Plack-App-Apache-ActionWrapper>. You will be automatically notified of any
+progress on the request by the system.
+
+=head2 Source Code
 
 The code is open to the world, and available for you to hack on. Please feel free to browse it and play
 with it, or whatever. If you want to contribute patches, please send me a diff or prod me to pull
 from your repository :)
 
-L<git://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper.git>
+L<http://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper>
 
-=back
-
-=head2 Bugs
-
-Please report any bugs or feature requests to C<bug-plack-app-apache-actionwrapper at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Plack-App-Apache-ActionWrapper>.  I will be
-notified, and then you'll automatically be notified of progress on your bug as I make changes.
+  git clone git://github.com/robinsmidsrod/Plack-App-Apache-ActionWrapper.git
 
 =head1 AUTHOR
 
@@ -313,7 +344,7 @@ Robin Smidsrød <robin@smidsrod.no>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Robin Smidsrød.
+This software is copyright (c) 2011 by Robin Smidsrød.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

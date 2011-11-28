@@ -6,10 +6,10 @@ META.json
 META.yml
 Makefile.PL
 README
-README.mkdn
 TODO
 dist.ini
 lib/Plack/App/Apache/ActionWrapper.pm
+perlcritic.rc
 t/author-critic.t
 t/release-eol.t
 t/release-kwalitee.t
