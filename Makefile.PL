@@ -11,10 +11,7 @@ use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Wrapper for Apache2 Action directive for running PSGI apps on shared hosting with FastCGI",
   "AUTHOR" => "Robin Smidsr\303\270d <robin\@smidsrod.no>",
-  "BUILD_REQUIRES" => {
-    "English" => 0,
-    "Test::More" => 0
-  },
+  "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
@@ -30,7 +27,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.30.1",
+  "VERSION" => "0.31.0",
   "test" => {
     "TESTS" => "t/*.t"
   }

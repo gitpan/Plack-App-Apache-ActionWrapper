@@ -5,7 +5,7 @@ use warnings;
 
 package Plack::App::Apache::ActionWrapper;
 {
-  $Plack::App::Apache::ActionWrapper::VERSION = '0.30.1';
+  $Plack::App::Apache::ActionWrapper::VERSION = '0.31.0';
 }
 use base 'Plack::Component';
 use File::Spec;
@@ -27,10 +27,15 @@ sub call {
               "You probably forgot to add the following lines to .htaccess:\n",
               "    Action psgi-handler /path/to/psgi.fcgi\n",
               "    AddHandler psgi-handler .psgi\n",
+              "(or your .psgi file has compilation errors)\n",
               $self->_get_debug_info($my_env),
             ],
         ];
     };
+    # Needed for Catalyst 5.9-based apps
+    if ( exists $env->{'REDIRECT_SCRIPT_URL'} ) {
+        $env->{'REDIRECT_URL'} = $env->{'REDIRECT_SCRIPT_URL'};
+    }
     return $app->($env);
 }
 
@@ -136,7 +141,7 @@ Plack::App::Apache::ActionWrapper - Wrapper for Apache2 Action directive for run
 
 =head1 VERSION
 
-version 0.30.1
+version 0.31.0
 
 =head1 SYNOPSIS
 
@@ -158,6 +163,19 @@ version 0.30.1
 
     use strict;
     use warnings;
+
+    # Some shared hosting providers don't even provide you
+    # with a pointer to your files
+    BEGIN {
+        $ENV{HOME} = '/home/someuser' unless $ENV{HOME};
+    }
+
+    # Enable this if you're unable to get output to STDERR
+    # in your normal log file
+    #use IO::Handle;
+    #close STDERR;
+    #open STDERR, ">>", "$ENV{HOME}/fcgi-error.log";
+    #STDERR->autoflush(1);
 
     # Change this line if you use local::lib or need
     # specific libraries loaded for your application
@@ -231,7 +249,7 @@ Mutator to disable debug output if no path was found in PATH_TRANSLATED. Allows 
 
 Accessor to determine if debug is enabled or not. Debug is disabled by default.
 
-=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan
 
 =head1 SUPPORT
 
@@ -247,6 +265,14 @@ The following websites have more information about this module, and may be of he
 in addition to those websites please use your favorite search engine to discover more resources.
 
 =over 4
+
+=item *
+
+MetaCPAN
+
+A modern, open-source CPAN search engine, useful to view POD in HTML format.
+
+L<http://metacpan.org/release/Plack-App-Apache-ActionWrapper>
 
 =item *
 
@@ -268,7 +294,7 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Plack-App-Apache-ActionWrapper>
 
 AnnoCPAN
 
-The AnnoCPAN is a website that allows community annonations of Perl module documentation.
+The AnnoCPAN is a website that allows community annotations of Perl module documentation.
 
 L<http://annocpan.org/dist/Plack-App-Apache-ActionWrapper>
 
@@ -308,7 +334,7 @@ L<http://www.cpantesters.org/distro/P/Plack-App-Apache-ActionWrapper>
 
 CPAN Testers Matrix
 
-The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
 
 L<http://matrix.cpantesters.org/?dist=Plack-App-Apache-ActionWrapper>
 
@@ -344,7 +370,7 @@ Robin Smidsrød <robin@smidsrod.no>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Robin Smidsrød.
+This software is copyright (c) 2012 by Robin Smidsrød.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

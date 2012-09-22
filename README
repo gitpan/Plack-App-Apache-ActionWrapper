@@ -3,7 +3,7 @@ NAME
     for running PSGI apps on shared hosting with FastCGI
 
 VERSION
-    version 0.30.1
+    version 0.31.0
 
 SYNOPSIS
         ------------- .htaccess -----------------
@@ -24,6 +24,19 @@ SYNOPSIS
 
         use strict;
         use warnings;
+
+        # Some shared hosting providers don't even provide you
+        # with a pointer to your files
+        BEGIN {
+            $ENV{HOME} = '/home/someuser' unless $ENV{HOME};
+        }
+
+        # Enable this if you're unable to get output to STDERR
+        # in your normal log file
+        #use IO::Handle;
+        #close STDERR;
+        #open STDERR, ">>", "$ENV{HOME}/fcgi-error.log";
+        #STDERR->autoflush(1);
 
         # Change this line if you use local::lib or need
         # specific libraries loaded for your application
@@ -107,6 +120,13 @@ SUPPORT
     be of help to you. As always, in addition to those websites please use
     your favorite search engine to discover more resources.
 
+    *   MetaCPAN
+
+        A modern, open-source CPAN search engine, useful to view POD in HTML
+        format.
+
+        <http://metacpan.org/release/Plack-App-Apache-ActionWrapper>
+
     *   Search CPAN
 
         The default CPAN search engine, useful to view POD in HTML format.
@@ -123,7 +143,7 @@ SUPPORT
 
     *   AnnoCPAN
 
-        The AnnoCPAN is a website that allows community annonations of Perl
+        The AnnoCPAN is a website that allows community annotations of Perl
         module documentation.
 
         <http://annocpan.org/dist/Plack-App-Apache-ActionWrapper>
@@ -158,8 +178,8 @@ SUPPORT
 
     *   CPAN Testers Matrix
 
-        The CPAN Testers Matrix is a website that provides a visual way to
-        determine what Perls/platforms PASSed for a distribution.
+        The CPAN Testers Matrix is a website that provides a visual overview
+        of the test results for a distribution on various Perls/platforms.
 
         <http://matrix.cpantesters.org/?dist=Plack-App-Apache-ActionWrapper>
 
@@ -193,7 +213,7 @@ AUTHOR
     Robin Smidsrød <robin@smidsrod.no>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2011 by Robin Smidsrød.
+    This software is copyright (c) 2012 by Robin Smidsrød.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
